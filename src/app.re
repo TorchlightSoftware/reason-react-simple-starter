@@ -15,8 +15,6 @@ let res =
     |> then_(text => Js.log(text) |> resolve)
   );
 
-[@bs.val] external alert : string => unit = "alert";
-
 let component = ReasonReact.reducerComponent("MyCounter");
 
 let make = _children => {
@@ -28,10 +26,7 @@ let make = _children => {
     | Click =>
       let oldCount = state.count;
       let newCount = oldCount + 1;
-      ReasonReact.UpdateWithSideEffects(
-        {...state, count: newCount},
-        (({state: {count}}) => alert({j|Updating counter to $count|j})),
-      );
+      ReasonReact.Update({...state, count: newCount});
     },
   didMount: self =>
     self.state.timerId :=
